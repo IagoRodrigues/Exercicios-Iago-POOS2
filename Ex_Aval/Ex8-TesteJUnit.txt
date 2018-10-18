@@ -1,0 +1,7 @@
+Link do blog-> 
+
+https://medium.com/@iagorodrigues_52903/testes-de-unidade-junit-e-um-pouco-de-hist%C3%B3ria-8129987d7f6b
+
+Link do git-> 
+
+https://github.com/IagoRodrigues/Exercicios-Iago-POOS2/tree/master/USMoney-JUnit
