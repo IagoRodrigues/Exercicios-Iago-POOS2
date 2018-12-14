@@ -1,0 +1,98 @@
+a) Herança--------------------
+Java possui a palavra chave Extends. quando fazemos "public class Gerente extends Funcionario" estamos dizendo que a classe gerente estende funcionário, ou seja,
+gerente é uma classe filha de funcionário: todo gerente é também um funcionário, mas nem todo funcionário é gerente. Dessa forma a classe gerente possui todos os
+métodos e atributos que a classe Funcionário possui, mais seus atributos e métodos próprios, ou seja, Gerente herda tudo de funcionário, este é o cenceito de 
+herança.
+Esse conceito permite que criemos classes genéricas (como Funcionário) e a partir delas criemos classes mais específicas (como gerente, diretor, secretário, etc) 
+sem precisar reescrever o código que já está escrito nas classes pais.
+
+b) Polimorfismo--------------------
+De acordo com o exemplo acima, Gerente, Diretor e Secretário são todos Funcionários, logo, o polimorfismo nos permite criar um array do tipo Funcionario e 
+armazenar objetos do tipo Gerente, Diretor e Secretário dentro dele. Isso acontece porque Gerente, Diretor e Secretário são funcionários: classes filhas 
+são do mesmo tipo da classe pai. Plimorfismo também está em sobrecarga e em sobreescrita.
+
+c) Interface--------------------
+Interface é um entidade que define atributos, métodos sem corpo e assinaturas de métodos. Ela é usada para garantir que a classe que implementar a interface 
+terá, obrigatoriamente, que implementar aqueles métodos. Imagine que em um sistema alguns funcionários fazem login quando chegam no trabalho, outros não:
+podemos criar a interface Autenticavel com o método autentica, dessa forma, se no futuro criarmos um novo tipo de funcionário que é obrigado a fazer login ao chegar,
+podemos integrá-lo ao sistema existente simplesmente dizendo que ele implementa Autenticavel. O novo tipo de funcionário obrigatoriamente terá o método autentica.
+
+d) Collection--------------------
+Collections são estruturas para facilitar o trabalho com coleções de itens. Pertencem a collections as interfaces Set, List e Queue. Cada uma possui prós e contras
+e cabe ao programador saber escolher qual e quando usar cada uma delas. Numa visão geral, Queue implementa filas (Queue), List é pra listas(ArrayList, Vector)
+e Set pra sets de objetos (HashSet, LinkedHashSet).
+
+e) Exceção--------------------
+Uma exceção é um evento que ocorre durante a execução de uma aplicação e que interrompe o fluxo normal das instruções, parando o programa, quando tentamos acessar
+a posição 11 de um array de 10 posições, por exemplo. É aconselhável tratar possíveis exceções usando:
+try{
+	Colocamos aqui o trecho de código a ser "tentado"
+}catch(aqui a exceção que queremos tratar){
+	Aqui aquilo que deve acontecer se a exceção acontecer
+}finally{
+	Aqui o que deve acontecer se a exceção acontecer ou não
+}
+
+f) Sobrecarga--------------------
+Sobrecarga é quando criamos vários métodos com o mesmo nome e assinaturas diferentes dentro de uma classe. Isso é util para facilitar a codificação, uma vez que
+não precisamos inventar vários nomes de métodos quando só a assitura muda, por exemplo:
+
+public int somaDois(int A, int B); -> será chamado automaticamente quando forem passados dois int para somaDois
+
+public int somaDois(float A, float B); -> será chamado automaticamente quando forem passados dois float para somaDois
+
+g) Sobreescrita--------------------
+Sobreescrita é quando reescrevemos um método na classe filha que já existe na classe pai, com o mesmo nome, a mesma assinatura, mas corpos diferentes. Usamos 
+@Override para marcar métodos sobreescritos.
+
+h) Classe Abstrata--------------------
+No exemplo 1 faz sentido ter gerente, diretor, secretário, engenheiro e todos esses cargos são funcionários de uma empresa (uma construtora por exemplo)
+dessa forma, Funcionário seria a classe pai de gerente, diretor, secretário e engenheiro, mas por ser muito genérico, não faz sentido poder instanciar um objeto
+do tipo Funcionário, uma vez que ninguém na empresa tem o cargo Funcionario. Para garantir que nosso sistema não permitirá que a classe funcionário seja instanciada
+deixamos a classe funcionário como abstrata, fazendo: "public abstract class Funcionario" dessa forma especificamos que Funcionario é abstrato, serve para ser herdada,
+para ser classe pai, mas não pode ser instanciada. Obrigatoriamente deve ter pelo menos um método abstrato, ou sem corpo: "public abstract retornoDoMetodo nomeDoMetodo()"
+
+i) Generics--------------------
+Para melhorar o reuso de software, a partir do Java 5, foi disponibilizado o uso de Classe Genérica. Podemos criar uma classe da seguinte forma:
+"public class MinhaClasse<E extends Comparable>"
+
+criamos o tipo de dados E, genérico, que pode ser de qualquer tipo, a partir daí podemos usar:
+private E valor1;
+private E valor2;
+
+a partir daí:
+MinhaClasse<Integer> mi = new MinhaClasse<Integer>(34, 12); -> criamos como integer, passamos 2 ints e a classe lida com isso
+MinhaClasse<String> ms = new MinhaClasse("Palavra1", "Palavra2"); -> criamos como String, passamos 2 String e a classe lida com isso
+
+j) Singletron--------------------
+É um padrão de projeto usado para garantir que determinada classe terá uma e só uma instancia. A própria classe controla sua instancia, como uma variável global
+mas a nível de classe:
+
+private meuMetodo() { ->construtor privado, só a classa acessa
+	usuarios = new LinkedList<>(); ->quando chamar o construtor, cria esse array list
+}
+
+public static meuMetodo getInstance(){ -> 
+	if(instance == null){ -> se não tiver sido instanciado, cria a instancia, chamando o construtor
+		instance = new meuMetodo();
+	}
+	return instance; -> retorna a instancia da classe
+}
+
+k) Varargs--------------------
+É uma lista de argumentos com tamanho variável, como por exemplo "public double mediaAritmetica(int... numeros)": com essa sintaxe estamos querendo dizer que não
+sabemos ao certo quantos argumentos do tipo o método mediaAritmetica vai receber. Varargs nesse caso espera receber um array de int ou uma lista simples de vários 
+int.
+
+l) HashCode--------------------
+É uma maneira de agrupar objetos com base em uma semelhança. Por exemplo, se temos uma lista de nomes e queremos localizar um nome específico, devemos revirar a
+lista toda. Uma das formas de utilizar HashCode nesse caso é criar um HashCode para cada letra do alfabeto e aí atribuir os nomes, dessa forma, HashCode = 1 
+seria um agrupamento de todos os nomes com a letra A, para procurar o nome Bárbara primeiro iriamos achar o HashCode da primeira letra (HashCode = 2) e aí
+buscar por Bárbara somente no grupo de nomes que possuem HashCode = 2.
+
+m) Map--------------------
+Map é uma maneira de mapear um conjunto de informações com base em uma chave, por exemplo, nossa chave pode ser a placa de um carro e nosso conjunto de informações
+pode ser todos os atributos e informações sobre esse carro. Assim, tendo a placa podemos trazer todas as informações que temos sobre dado carro rapidamente.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
