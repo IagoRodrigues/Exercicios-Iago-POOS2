@@ -3,9 +3,10 @@ Scanner input;
 input = new Scanner(System.in);
 
 public String dataBrazil(){
-String txt;
-txt = dia + "/" + mes + "/" + ano;
-return txt;
+	String txt;
+	txt = dia + "/" + mes + "/" + ano;
+	
+	return txt;
 }
 
 //Nomenclaturas--------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -33,6 +34,61 @@ notas = new Vector<>(qnt);
 //Linked List- lista duplamente encadeada
 private LinkedList<Nota> notas;
 notas = new LinkedList<>(); //não precisa definir o tamanho inicial
+
+
+//Set, List e Queue precisam implementar equals() e compareTo() para funcionarem
+//Set não possui Get, então precisa de Iterator
+//O HashCode precisa ser eficiente para separar corretamente os objetos
+//Exemplos:
+
+
+@Override
+public boolean equals(Object obj) {
+	boolean iguais = false;
+	
+	if(obj != null && obj instanceof Usuario){
+		iguais = this.username.equals(((Usuario) obj).getUsername());
+	}
+	
+	return iguais;
+}
+
+@Override
+public int compareTo(Usuario o) {
+	int retorno = 0;
+	
+	if(o != null){
+		retorno = this.username.compareTo(o.getUsername());
+	}
+	
+	return retorno;
+}
+
+public Usuario recuperate(String username){
+	Usuario usuario;
+	Usuario retorno = null;
+	
+	Iterator<Usuario> iterator = usuarios.iterator();
+	while (iterator.hasNext() && retorno == null){
+		usuario = iterator.next();
+		if(usuario.getUsername().equals(username)){
+			retorno = usuario;
+		}
+	}
+	return retorno;
+}
+
+@Override
+public int hashCode() {
+	return username.hashCode();
+}
+
+//Map------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Map<String, Usuario> mapaDeUsuario = new HashMap<>();
+
+mapaDeUsuario.put("ednilson", new Usuario("ednilson", "Ednilson", "123"));
+
+Usuario usuario = mapaDeUsuario.get("ednilson");
 
 //Ternário-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 this.idade = idade >= 0 ? idade : 0 ;
@@ -68,8 +124,8 @@ public class MinhaClasse<E extends Comparable> {
 	private E valor2;
 
 	public MinhaClasse(E valor1, E valor2) { //Passo para o construtor
-	this.valor1 = valor1;
-	this.valor2 = valor2;
+		this.valor1 = valor1;
+		this.valor2 = valor2;
 	}
 	
 	public boolean iguais(){ //comparo ambas
@@ -100,22 +156,29 @@ public class Main {
 }
 
 //Arquivos-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//Para escrever:
-FileWriter fileWriter = null; //criador de arquivos
-PrintWriter printWriter = null; //impressora
+//Para escrever no arquivo:
 
-fileWriter = new FileWriter("/home/ednilsonrossi/Desktop/Saida.txt");
-printWriter = new PrintWriter(fileWriter);
-
-printWriter.printf("Tabuada do número %d\n", n);
-for(i = 0; i <= 10; i++) {
-	printWriter.printf("%d x %d = %d \n", n, i, n*i);
+public class Tabuada {
+	public static void main(String[] args) throws IOException {
+		int i, n;
+		n = 6;
+		
+		FileWriter fileWriter = null; //criador de arquivos
+		PrintWriter printWriter = null;  //impressora
+		
+		fileWriter = new FileWriter("/home/ednilsonrossi/Desktop/Saida.txt");
+		printWriter = new PrintWriter(fileWriter);
+		
+		printWriter.printf("Tabuada do número %d\n", n);
+		for(i = 0; i <= 10; i++) {
+			printWriter.printf("%d x %d = %d \n", n, i, n*i);
+		} 
+		printWriter.close();
+		fileWriter.close();
+	}
 }
 
-printWriter.close();
-fileWriter.close();
-
-//Para ler:
+//Para ler o arquivo:
 /*
 InputStreamReader
 Realiza a ponte de comunicação de fluxos de
@@ -127,6 +190,45 @@ Lê o texto de um fluxo de entrada de caracteres,
 armazenando-os em um buffer de caracteres para
 fornecer a leitura eficiente de caracteres, matrizes e linhas.
 */
+
+//Lendo byte e codificando para caractere:
+public class LerTabuada2 {
+	public static void main(String[] args) throws IOException{
+		InputStream inputStream = null;
+		InputStreamReader reader = null;
+		int lido;
+		
+		inputStream = new FileInputStream("/home/ednilsonrossi/Desktop/Saida.txt");
+		reader = new InputStreamReader(inputStream);
+		
+		while ((lido = reader.read()) != -1){
+			System.out.print((char) lido);
+		}
+		
+		reader.close();
+		inputStream.close();
+	}
+}
+
+//Linha toda:
+public class LerTabuada3 {
+	public static void main(String[] args) throws IOException{
+		InputStream inputStream = null;
+		InputStreamReader inputStreamReader = null;
+		BufferedReader bufferedReader = null;
+		String linha;
+		
+		inputStream = new FileInputStream("/home/ednilsonrossi/Desktop/Saida.txt");
+		inputStreamReader = new InputStreamReader(inputStream);
+		bufferedReader = new BufferedReader(inputStreamReader);
+		
+		while((linha = bufferedReader.readLine()) != null){
+			System.out.println(linha);
+		}
+		
+		bufferedReader.close();
+	}
+}
 
 //Try Catch------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 try {
